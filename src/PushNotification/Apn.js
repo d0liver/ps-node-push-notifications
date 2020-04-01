@@ -5,7 +5,7 @@ _ = require("lodash");
 
 apn = require("apn");
 
-exports._sendApnNotification = function({apn, appId}) {
+exports._sendApnNotification = function({provider, appId}) {
   return function(rId) {
     return function(title) {
       return function(body) {
@@ -26,7 +26,7 @@ exports._sendApnNotification = function({apn, appId}) {
                   topic: appId
                 };
                 // Returns a promise
-                return apnProvider().send(_.extend(note, wrapper), rId);
+                return provider.send(_.extend(note, wrapper), rId);
               };
             };
           };
@@ -39,7 +39,7 @@ exports._sendApnNotification = function({apn, appId}) {
 exports.initProvider = function(conf) {
   return function() {
     return {
-      apn: new apn.Provider(conf),
+      provider: new apn.Provider(conf),
       appId: conf.appId
     };
   };
