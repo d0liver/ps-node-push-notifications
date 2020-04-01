@@ -9,7 +9,7 @@ import Effect (Effect)
 import Foreign.Generic.Class (class Encode)
 import PushNotification.Apn as Apn
 import PushNotification.Fcm as Fcm
-import PushNotification.RegistrationId (AndroidRegistrationId, ApnDeviceToken)
+import PushNotification.Id (AndroidRegistrationId, ApnDeviceToken)
 
 type Title = String
 type Body = String

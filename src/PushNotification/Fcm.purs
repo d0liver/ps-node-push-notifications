@@ -12,7 +12,7 @@ import Foreign (Foreign)
 import Foreign.Generic (genericEncode, genericDecode)
 import Foreign.Generic.Class (class Decode, class Encode, defaultOptions, encode)
 import Node.Path (FilePath)
-import PushNotification.RegistrationId (AndroidRegistrationId)
+import PushNotification.Id (AndroidRegistrationId)
 
 foreign import data Provider :: Type
 foreign import _sendFcmNotification :: Provider -> Foreign -> String -> String -> Foreign -> Int -> Foreign -> Effect Unit

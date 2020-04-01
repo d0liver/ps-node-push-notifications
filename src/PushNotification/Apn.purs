@@ -12,7 +12,7 @@ import Foreign (Foreign, ForeignError(..), readString)
 import Foreign.Generic.Class (class Decode, class Encode, encode)
 import Moment (Duration, Increment(..), duration)
 import Node.Path (FilePath)
-import PushNotification.RegistrationId (ApnDeviceToken)
+import PushNotification.Id (ApnDeviceToken)
 
 -- TODO: This actually hands back a promise, but I don't particularly care about
 -- the result right now.

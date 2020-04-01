@@ -1,5 +1,5 @@
-module PushNotification.RegistrationId (
-  AndroidRegistrationId, ApnDeviceToken
+module PushNotification.Id (
+  AndroidRegistrationId(..), ApnDeviceToken(..)
 ) where
 
 import Prelude
