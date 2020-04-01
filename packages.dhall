@@ -126,7 +126,7 @@ let overrides = {=}
 let additions =
   { moment =
     { repo = "https://github.com/d0liver/ps-moment.git"
-    , version = "a4eb0b24fad881862cf2848c2139ad0922c1b4bb"
+    , version = "a73195309fade58e75a3bb01ec19a2803f06ea08"
     , dependencies = [ "console", "effect", "js-date", "psci-support", "spec", "unicode-prelude" ]
     }
   , unicode-prelude =
