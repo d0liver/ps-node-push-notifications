@@ -8,7 +8,6 @@ import Prelude
 import Control.Monad.Error.Class (throwError)
 import Data.List.NonEmpty as NL
 import Effect (Effect)
-import Environment (Environment)
 import Foreign (Foreign, ForeignError(..), readString)
 import Foreign.Generic.Class (class Decode, class Encode, encode)
 import Moment (Duration, Increment(..), duration)
@@ -19,7 +18,7 @@ import PushNotification.RegistrationId (ApnDeviceToken)
 -- the result right now.
 foreign import data Provider :: Type
 foreign import _sendApnNotification :: Provider -> Foreign -> String -> String -> Foreign -> Int -> Foreign -> Effect Unit
-foreign import initProvider :: ProviderConfig -> Effect Provider
+foreign import initProvider :: Foreign -> Effect Provider
 
 type ProviderConfig = {
   token :: {
@@ -31,7 +30,7 @@ type ProviderConfig = {
   -- with the provider so that I don't have to specify the app id with each
   -- call.
   appId :: String,
-  environment :: Environment
+  production :: Boolean
 }
 
 unsafeSendNotification :: ∀ a. Encode a => Provider -> ApnDeviceToken -> String -> String -> a -> Int -> Opts -> Effect Unit
