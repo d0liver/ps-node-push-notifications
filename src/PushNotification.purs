@@ -1,6 +1,6 @@
 module PushNotification (
   Bundle, Title, Body, BadgeCount,
-  sendChatNotification
+  sendNotification
 ) where
 
 import Prelude
@@ -21,8 +21,8 @@ data Bundle =
 
 -- Right now default options are always used for both. Obviously this would be
 -- pretty easy to change, but I don't have a reason to change it atm.
-sendChatNotification :: ∀ a. Encode a => Bundle -> Title -> Body -> a -> BadgeCount -> Effect Unit
-sendChatNotification (Apn p dT) title body payload badgeCount =
+sendNotification :: ∀ a. Encode a => Bundle -> Title -> Body -> a -> BadgeCount -> Effect Unit
+sendNotification (Apn p dT) title body payload badgeCount =
   Apn.unsafeSendNotification p dT title body payload badgeCount Apn.defaultOpts
-sendChatNotification (Fcm p aRId) title body payload badgeCount =
+sendNotification (Fcm p aRId) title body payload badgeCount =
   Fcm.unsafeSendNotification p aRId title body payload badgeCount Fcm.defaultOpts
