@@ -18,7 +18,7 @@ import PushNotification.RegistrationId (ApnDeviceToken)
 -- the result right now.
 foreign import data Provider :: Type
 foreign import _sendApnNotification :: Provider -> Foreign -> String -> String -> Foreign -> Int -> Foreign -> Effect Unit
-foreign import initProvider :: Foreign -> Effect Provider
+foreign import initProvider :: ProviderConfig -> Effect Provider
 
 type ProviderConfig = {
   token :: {
