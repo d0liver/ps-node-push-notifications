@@ -1,4 +1,4 @@
-{ name = "ps-node-push-notifications"
+{ name = "node-push-notifications"
 , dependencies =
   [ "aff-promise"
   , "console"
