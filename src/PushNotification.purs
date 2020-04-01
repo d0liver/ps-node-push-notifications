@@ -1,5 +1,5 @@
 module PushNotification (
-  Bundle, Title, Body, BadgeCount,
+  Bundle(..), Title, Body, BadgeCount,
   sendNotification
 ) where
 
