@@ -1,6 +1,6 @@
 module PushNotification.Apn (
-  Provider, Opts, Sound,
-  defaultOpts, unsafeSendNotification
+  Provider, ProviderConfig, Opts, Sound,
+  initProvider, defaultOpts, unsafeSendNotification
 ) where
 
 import Prelude
