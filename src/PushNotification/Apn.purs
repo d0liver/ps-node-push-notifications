@@ -1,13 +1,17 @@
 module PushNotification.Apn (
   Provider, ProviderConfig, Opts, Sound,
-  initProvider, defaultOpts, unsafeSendNotification
+  initProvider, shutdownProvider, defaultOpts, unsafeSendNotification
 ) where
 
 import Prelude
 
 import Control.Monad.Error.Class (throwError)
+import Control.Promise (Promise)
+import Control.Promise as Promise
 import Data.List.NonEmpty as NL
 import Effect (Effect)
+import Effect.Aff (Aff)
+import Effect.Class (liftEffect)
 import Foreign (Foreign, ForeignError(..), readString)
 import Foreign.Generic.Class (class Decode, class Encode, encode)
 import Moment (Duration, Increment(..), duration)
@@ -17,8 +21,9 @@ import PushNotification.Id (ApnDeviceToken)
 -- TODO: This actually hands back a promise, but I don't particularly care about
 -- the result right now.
 foreign import data Provider :: Type
-foreign import _sendApnNotification :: Provider -> Foreign -> String -> String -> Foreign -> Int -> Foreign -> Effect Unit
+foreign import _sendApnNotification :: Provider -> Foreign -> String -> String -> Foreign -> Int -> Foreign -> Effect (Promise Foreign)
 foreign import initProvider :: ProviderConfig -> Effect Provider
+foreign import shutdownProvider :: Provider -> Effect Unit
 
 type ProviderConfig = {
   token :: {
@@ -33,9 +38,16 @@ type ProviderConfig = {
   production :: Boolean
 }
 
-unsafeSendNotification :: ∀ a. Encode a => Provider -> ApnDeviceToken -> String -> String -> a -> Int -> Opts -> Effect Unit
+--- FIXME: We should probably actually unwrap the response ourselves here.
+unsafeSendNotification :: ∀ a. Encode a => Provider -> ApnDeviceToken -> String -> String -> a -> Int -> Opts -> Aff Foreign
 unsafeSendNotification provider dT title body payload badgeCount opts =
-  _sendApnNotification provider (encode dT) title body (encode payload) badgeCount (encode opts)
+  (liftEffect $
+    _sendApnNotification
+      provider (encode dT)
+      title body
+      (encode payload) badgeCount
+      (encode opts)
+  ) >>= Promise.toAff
 
 data Sound = Ping
 

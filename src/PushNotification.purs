@@ -5,7 +5,9 @@ module PushNotification (
 
 import Prelude
 
-import Effect (Effect)
+import Effect.Aff (Aff)
+import Effect.Class (liftEffect)
+import Foreign (Foreign)
 import Foreign.Generic.Class (class Encode)
 import PushNotification.Apn as Apn
 import PushNotification.Fcm as Fcm
@@ -21,8 +23,17 @@ data Bundle =
 
 -- Right now default options are always used for both. Obviously this would be
 -- pretty easy to change, but I don't have a reason to change it atm.
-sendNotification :: ∀ a. Encode a => Bundle -> Title -> Body -> a -> BadgeCount -> Effect Unit
+sendNotification :: ∀ a. Encode a => Bundle -> Title -> Body -> a -> BadgeCount -> Aff Foreign
 sendNotification (Apn p dT) title body payload badgeCount =
-  Apn.unsafeSendNotification p dT title body payload badgeCount Apn.defaultOpts
+  Apn.unsafeSendNotification
+    p dT
+    title body
+    payload badgeCount
+    Apn.defaultOpts
 sendNotification (Fcm p aRId) title body payload badgeCount =
-  Fcm.unsafeSendNotification p aRId title body payload badgeCount Fcm.defaultOpts
+  liftEffect $
+    Fcm.unsafeSendNotification
+      p aRId
+      title body
+      payload badgeCount
+      Fcm.defaultOpts
