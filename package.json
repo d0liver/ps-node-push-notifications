@@ -1,0 +1,7 @@
+{
+  "name": "ps-push-notifications",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "David <t3tris.d3vil@gmail.com>",
+  "license": "MIT"
+}
