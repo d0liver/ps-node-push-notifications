@@ -123,6 +123,20 @@ let upstream =
 
 let overrides = {=}
 
-let additions = {=}
+let additions =
+  { moment =
+    { repo = "https://github.com/d0liver/ps-moment.git"
+    , version = "a4eb0b24fad881862cf2848c2139ad0922c1b4bb"
+    , dependencies = [ "console", "effect", "js-date", "psci-support", "spec", "unicode-prelude" ]
+    }
+  , unicode-prelude =
+        { dependencies =
+            [ "prelude" ]
+        , repo =
+            "https://github.com/vyorkin/purescript-unicode-prelude"
+        , version =
+            "v0.2.4"
+        }
+}
 
 in  upstream // overrides // additions
