@@ -5,7 +5,7 @@ _ = require("lodash");
 
 apn = require("apn");
 
-exports.shutdownProvider = function({provider}) {
+exports._shutdownProvider = function({provider}) {
   return function() {
     return provider.shutdown();
   };
@@ -42,7 +42,7 @@ exports._sendApnNotification = function({provider, appId}) {
   };
 };
 
-exports.initProvider = function(conf) {
+exports._initProvider = function(conf) {
   return function() {
     return {
       provider: new apn.Provider(conf),

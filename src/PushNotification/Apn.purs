@@ -22,8 +22,8 @@ import PushNotification.Id (ApnDeviceToken)
 -- the result right now.
 foreign import data Provider :: Type
 foreign import _sendApnNotification :: Provider -> Foreign -> String -> String -> Foreign -> Int -> Foreign -> Effect (Promise Foreign)
-foreign import initProvider :: ProviderConfig -> Effect Provider
-foreign import shutdownProvider :: Provider -> Effect Unit
+foreign import _initProvider :: ProviderConfig -> Effect Provider
+foreign import _shutdownProvider :: Provider -> Effect Unit
 
 type ProviderConfig = {
   token :: {
@@ -37,6 +37,13 @@ type ProviderConfig = {
   appId :: String,
   production :: Boolean
 }
+
+-- Move stuff into Aff for the sake of API consistency
+shutdownProvider :: Provider -> Aff Unit
+shutdownProvider = liftEffect <<< _shutdownProvider
+
+initProvider :: ProviderConfig -> Aff Provider
+initProvider = liftEffect <<< _initProvider
 
 --- FIXME: We should probably actually unwrap the response ourselves here.
 unsafeSendNotification :: ∀ a. Encode a => Provider -> ApnDeviceToken -> String -> String -> a -> Int -> Opts -> Aff Foreign

@@ -1,10 +1,10 @@
 _ = require "lodash"
 apn = require "apn"
 
-exports.shutdownProvider = ({ provider }) -> -> provider.shutdown()
+exports._shutdownProvider = ({ provider }) -> -> provider.shutdown()
 
 exports._sendApnNotification = \
-	)({ provider, appId }) -> (rId) -> (title) -> \
+	({ provider, appId }) -> (rId) -> (title) -> \
 	(body) -> (payload) -> (badgeCount) -> (opts) -> ->
 	# Send iOS push notification
 	note = new apn.Notification
@@ -21,6 +21,6 @@ exports._sendApnNotification = \
 	# Returns a promise
 	provider.send (_.extend note, wrapper), rId
 
-exports.initProvider = (conf) -> ->
+exports._initProvider = (conf) -> ->
 	provider: new apn.Provider conf
 	appId: conf.appId
