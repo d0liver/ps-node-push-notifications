@@ -1,7 +1,7 @@
 _ = require "lodash"
 FCM = require "fcm-node"
 
-exports.initProvider = ({ keyPath }) -> -> new FCM (require keyPath)
+exports.initProvider = ({ keyFilePath }) -> -> new FCM (require keyFilePath)
 exports._sendFcmNotification = \
 	(fcm) -> (rId) -> (title) -> (body) -> \
 	(payload) -> (badgeCount) -> (opts) -> ->

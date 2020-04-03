@@ -5,9 +5,9 @@ _ = require("lodash");
 
 FCM = require("fcm-node");
 
-exports.initProvider = function({keyPath}) {
+exports.initProvider = function({keyFilePath}) {
   return function() {
-    return new FCM(require(keyPath));
+    return new FCM(require(keyFilePath));
   };
 };
 
