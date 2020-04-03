@@ -16,13 +16,19 @@ import PushNotification.Id (AndroidRegistrationId)
 
 foreign import data Provider :: Type
 foreign import _sendFcmNotification :: Provider -> Foreign -> String -> String -> Foreign -> Int -> Foreign -> Effect Foreign
-foreign import initProvider :: ProviderConfig -> Effect Provider
+foreign import _initProvider :: Foreign -> Effect Provider
 
 data Fcm = Fcm Provider AndroidRegistrationId
 
-type ProviderConfig = {
-  keyFilePath :: FilePath
-}
+data ProviderConfig = KeyFilePath FilePath | KeyObj Foreign
+derive instance genericProviderConfig :: Generic ProviderConfig _
+instance encodeProviderConfig :: Encode ProviderConfig where
+  encode = genericEncode $ defaultOptions { unwrapSingleConstructors = true }
+instance decodeProviderConfig :: Decode ProviderConfig where
+  decode = genericDecode $ defaultOptions { unwrapSingleConstructors = true }
+
+initProvider :: ProviderConfig -> Effect Provider
+initProvider conf = _initProvider (encode conf)
 
 unsafeSendNotification :: ∀ a. Encode a => Provider -> AndroidRegistrationId -> String -> String -> a -> Int -> Opts -> Effect Foreign
 unsafeSendNotification provider aRId title body payload badgeCount opts =
