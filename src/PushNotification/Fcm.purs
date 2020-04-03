@@ -1,5 +1,5 @@
 module PushNotification.Fcm (
-  Provider, Opts, Style, ProviderConfig,
+  Provider, Opts, Style, ProviderConfig(..),
   initProvider, defaultOpts,
   unsafeSendNotification
 ) where
